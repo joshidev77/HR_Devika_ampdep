@@ -136,54 +136,53 @@ const App = () => {
                 <FaCommentDots className="text-pink-500 text-6xl md:text-9xl" />
               )}
             </div>
-            <div className="w-full md:w-1/2 flex flex-col justify-between">
-              <div 
-                className="message-list p-4 border-b border-gray-200 flex-grow overflow-y-auto" 
-                ref={messageListRef}
-              >
-                {messages.length === 0 && !currentMessage ? (
-                  <p className="text-gray-700">
-                    Your speech will be converted to text here...
-                  </p>
-                ) : (
-                  <>
-                    {messages.map((msg) => (
-                      <div
-                        key={msg.id}
-                        className={`message mb-2 p-2 rounded-lg ${
-                          msg.user === "User"
-                            ? "user-message"
-                            : "ai-message"
-                        }`}
-                        // Conditionally apply dangerouslySetInnerHTML
-                        {...(msg.isHtml ? { dangerouslySetInnerHTML: { __html: msg.text } } : { children: <><strong>{msg.user}:</strong> {msg.text}</> })}
-                      />
-                    ))}
-                    {waitingForResponse && (
-                      <div className="mb-2 text-pink-500">
-                        <strong>Devika (waiting for response):</strong> Please wait...
-                      </div>
-                    )}
-                    {!waitingForResponse && currentMessage && (
-                      <div className="mb-2">
-                        <strong>User (current):</strong> {currentMessage}
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-              <div className="actions mt-4 flex flex-col items-center">
-                <button
-                  className={`${
-                    isRecording ? "stop-button" : "start-button"
-                  } text-white bg-pink-500 py-2 px-4 rounded-md mb-2 w-full md:w-auto transition-transform transform hover:scale-105`}
-                  onClick={isRecording ? stopListening : startListening}
-                  disabled={waitingForResponse} // Disable button while waiting for response
-                >
-                  {isRecording ? "Stop Listening" : "Start Listening"}
-                </button>
-              </div>
-            </div>
+            <div className="w-full md:w-1/2 flex flex-col">
+  <div 
+    className="message-list p-4 border-b border-gray-200 flex-grow overflow-y-auto " 
+    ref={messageListRef}
+  >
+    {messages.length === 0 && !currentMessage ? (
+      <p className="text-gray-700">
+        Your speech will be converted to text here...
+      </p>
+    ) : (
+      <>
+        {messages.map((msg) => (
+          <div
+            key={msg.id}
+            className={`message mb-2 p-2 rounded-lg ${
+              msg.user === "User"
+                ? "user-message"
+                : "ai-message"
+            }`}
+            {...(msg.isHtml ? { dangerouslySetInnerHTML: { __html: msg.text } } : { children: <><strong>{msg.user}:</strong> {msg.text}</> })}
+          />
+        ))}
+        {waitingForResponse && (
+          <div className="mb-2 text-pink-500">
+            <strong>Devika (waiting for response):</strong> Please wait...
+          </div>
+        )}
+        {!waitingForResponse && currentMessage && (
+          <div className="mb-2">
+            <strong>User (current):</strong> {currentMessage}
+          </div>
+        )}
+      </>
+    )}
+  </div>
+  <div className="actions mt-4 flex flex-col items-center">
+    <button
+      className={`${
+        isRecording ? "stop-button" : "start-button"
+      } text-white bg-pink-500 py-2 px-4 rounded-md mb-2 w-full md:w-auto transition-transform transform hover:scale-105`}
+      onClick={isRecording ? stopListening : startListening}
+      disabled={waitingForResponse}
+    >
+      {isRecording ? "Stop Speaking" : "Start Speaking"}
+    </button>
+  </div>
+</div>
           </div>
         </div>
       </main>

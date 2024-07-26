@@ -15,7 +15,7 @@ const Footer = () => {
         </div>
         <div className="border-t border-pink-300 py-6">
           <p className="text-center text-sm text-pink-200">
-            © {new Date().getFullYear()} Team Status-Code. All rights reserved.
+            © {new Date().getFullYear()} Team Status-Code-404. All rights reserved.
           </p>
         </div>
       </div>
