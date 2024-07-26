@@ -1,6 +1,6 @@
 # HR - Devika
 
-<img src ="C:\Users\mrvad\OneDrive\Desktop\Sujal\Untitled design.png">
+![image](https://github.com/harsh6045/HR_Devika/blob/main/Untitled%20design.png?raw=true)
 
 Devika is a Virtual HR Software: Create a web application for automating HR processes, including conducting interviews, managing employee data, and analyzing candidate behavior. The app utilizes advanced machine learning models to detect facial expressions and provide feedback on emotions.
 
