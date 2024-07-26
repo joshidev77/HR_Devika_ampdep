@@ -88,15 +88,15 @@ const jsonData = [
   },
   {
     name: "Sujal Vadgama",
-    position: "Cloud Computing",
+    position: "AI/ML",
     imgSrc: sujal,
     social: [
-      { url: "https://x.com/Harsh_6045", icon: "fab fa-twitter" },
+      { url: "https://x.com/vadgamasujal15", icon: "fab fa-twitter" },
       {
-        url: "https://www.linkedin.com/in/harsh-langaliya/",
+        url: "https://www.linkedin.com/in/sujalvadgama",
         icon: "fab fa-linkedin",
       },
-      { url: " https://github.com/harsh6045", icon: "fab fa-github" },
+      { url: " https://github.com/sujalvadgama77", icon: "fab fa-github" },
     ],
   },
 ];

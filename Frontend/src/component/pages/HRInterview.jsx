@@ -5,6 +5,7 @@ import useClipboard from "react-use-clipboard";
 import { FaMicrophone, FaCommentDots } from "react-icons/fa";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import axios from "axios";
 
 const App = () => {
   const [textToCopy, setTextToCopy] = useState("");
@@ -24,6 +25,30 @@ const App = () => {
   } = useSpeechRecognition();
 
   useEffect(() => {
+    // Check if the page was reloaded
+    const isPageReloaded = sessionStorage.getItem("pageReloaded");
+    if (isPageReloaded) {
+      // Clear the session storage flag
+      sessionStorage.removeItem("pageReloaded");
+
+      // Reset state
+      setMessages([]);
+      setCurrentMessage("");
+      resetTranscript();
+
+      // Send a request to the backend indicating to start the test again
+      axios.post("https://devjoshi77.pythonanywhere.com/interview", {
+        candidate_input: "Sorry, the page was reloaded. Please restart the test."
+      }).catch((error) => {
+        console.error("Error sending message to the backend:", error);
+      });
+    } else {
+      // Set flag indicating the page was loaded for the first time
+      sessionStorage.setItem("pageReloaded", "true");
+    }
+  }, [resetTranscript]);
+
+  useEffect(() => {
     if (isRecording && transcript) {
       setCurrentMessage(transcript);
     }
@@ -36,7 +61,7 @@ const App = () => {
     SpeechRecognition.startListening({ continuous: true, language: "en-IN" });
   };
 
-  const stopListening = () => {
+  const stopListening = async () => {
     setIsRecording(false);
     SpeechRecognition.stopListening();
     if (currentMessage) {
@@ -44,26 +69,29 @@ const App = () => {
       setMessages((prevMessages) => [...prevMessages, newMessage]);
       setTextToCopy(currentMessage);
       setWaitingForResponse(true);
-
-      // Simulate sending to backend
-      console.log("Sending to backend:", currentMessage);
-      
-      // Replace with actual backend call
-      simulateBackendResponse(currentMessage);
+      try {
+        const response = await axios.post("https://devjoshi77.pythonanywhere.com/interview", {
+          candidate_input: currentMessage
+        });
+        console.log(response.data.hr_response)
+        let aiResponseText;
+        if (response.data) {
+          aiResponseText = response.data.hr_response || 'No message received';
+        } else {
+          aiResponseText = 'Unexpected response format';
+        }
+  
+        setMessages((prevMessages) => [
+         ...prevMessages,
+          { user: "AI", text: aiResponseText, id: Date.now() },
+        ]);
+      } catch (error) {
+        console.error("Error sending message to the backend:", error);
+      } finally {
+        setWaitingForResponse(false);
+      }
     }
     setCurrentMessage("");
-  };
-
-  const simulateBackendResponse = async (message) => {
-    // Simulate a delay for the backend response
-    setTimeout(() => {
-      const aiResponse = "This is a simulated AI response."; // Replace with backend response
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { user: "AI", text: aiResponse, id: Date.now() },
-      ]);
-      setWaitingForResponse(false);
-    }, 2000); // Simulate network delay
   };
 
   useEffect(() => {
@@ -81,7 +109,7 @@ const App = () => {
       <Navbar />
       <header className="header py-6">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-3xl md:text-5xl font-bold">Let's Have Interview</h1>
+          <h1 className="text-3xl md:text-5xl font-bold">Let's Have an Interview</h1>
         </div>
       </header>
       <main className="main-content flex-grow flex items-center justify-center bg-gray-100 p-4">
@@ -128,17 +156,12 @@ const App = () => {
                 )}
               </div>
               <div className="actions mt-4 flex flex-col items-center">
-                {/* <button
-                  className="copy-button bg-pink-500 text-white py-2 px-4 rounded-md mb-2 w-full md:w-auto transition-transform transform hover:scale-105"
-                  onClick={setCopied} 
-                >
-                  {isCopied ? "Copied!" : "Copy to clipboard"}
-                </button> */}
                 <button
                   className={`${
                     isRecording ? "stop-button" : "start-button"
                   } text-white bg-pink-500 py-2 px-4 rounded-md mb-2 w-full md:w-auto transition-transform transform hover:scale-105`}
                   onClick={isRecording ? stopListening : startListening}
+                  disabled={waitingForResponse} // Disable button while waiting for response
                 >
                   {isRecording ? "Stop Listening" : "Start Listening"}
                 </button>
