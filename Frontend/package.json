@@ -29,6 +29,7 @@
     "react-toastify": "^10.0.5",
     "react-use-clipboard": "^1.0.9",
     "recorder-js": "^1.0.7",
+    "regenerator-runtime": "^0.14.1",
     "routes": "^2.1.0",
     "toast": "^0.5.4",
     "uuid": "^9.0.1",
