@@ -116,7 +116,7 @@ function RegisterAndLogin() {
             <div
               className={`${
                 !login
-                  ? "text-blue-500 font-bold border-b-2 border-blue-500"
+                  ? "text-pink-500 font-bold border-b-2 border-pink-500"
                   : "text-gray-500"
               } cursor-pointer mr-4 pb-2`}
               onClick={() => setLogin(false)}
@@ -126,7 +126,7 @@ function RegisterAndLogin() {
             <div
               className={`${
                 login
-                  ? "text-blue-500 font-bold border-b-2 border-blue-500"
+                  ? "text-pink-500 font-bold border-b-2 border-pink-500"
                   : "text-gray-500"
               } cursor-pointer pb-2`}
               onClick={() => setLogin(true)}
@@ -157,7 +157,7 @@ function RegisterAndLogin() {
                     />
                     <label
                       htmlFor="photo"
-                      className="ml-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md cursor-pointer"
+                      className="ml-4 bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-md cursor-pointer"
                     >
                       Upload Photo
                     </label>
@@ -171,14 +171,14 @@ function RegisterAndLogin() {
                   <input
                     name="name"
                     placeholder="Name"
-                    className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                    className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-500"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
                   <textarea
                     name="description"
                     placeholder="Description"
-                    className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                    className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-500"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                   ></textarea>
@@ -187,17 +187,17 @@ function RegisterAndLogin() {
               <input
                 name="email"
                 placeholder="Email"
-                className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-500"
               />
               <input
                 name="password"
                 type="password"
                 placeholder="Password"
-                className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-500"
               />
               <button
                 type="submit"
-                className="w-full mt-4 bg-blue-500 text-white font-bold py-2 rounded-md focus:outline-none focus:bg-blue-600 hover:bg-blue-600 transition-colors duration-300"
+                className="w-full mt-4 bg-pink-500 text-white font-bold py-2 rounded-md focus:outline-none focus:bg-pink-600 hover:bg-pink-600 transition-colors duration-300"
               >
                 {login ? "Sign In" : "Register"}
               </button>

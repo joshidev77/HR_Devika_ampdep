@@ -91,7 +91,7 @@ const App = () => {
               {isRecording ? (
                 <FaMicrophone className="text-green-500 text-6xl md:text-9xl animate-pulse" />
               ) : (
-                <FaCommentDots className="text-blue-500 text-6xl md:text-9xl" />
+                <FaCommentDots className="text-pink-500 text-6xl md:text-9xl" />
               )}
             </div>
             <div className="w-full md:w-1/2 flex flex-col justify-between">
@@ -115,7 +115,7 @@ const App = () => {
                       </div>
                     ))}
                     {waitingForResponse && (
-                      <div className="mb-2 text-blue-500">
+                      <div className="mb-2 text-pink-500">
                         <strong>Devika (waiting for response):</strong> Please wait...
                       </div>
                     )}
@@ -129,7 +129,7 @@ const App = () => {
               </div>
               <div className="actions mt-4 flex flex-col items-center">
                 <button
-                  className="copy-button bg-blue-500 text-white py-2 px-4 rounded-md mb-2 w-full md:w-auto transition-transform transform hover:scale-105"
+                  className="copy-button bg-pink-500 text-white py-2 px-4 rounded-md mb-2 w-full md:w-auto transition-transform transform hover:scale-105"
                   onClick={setCopied} 
                 >
                   {isCopied ? "Copied!" : "Copy to clipboard"}
@@ -137,7 +137,7 @@ const App = () => {
                 <button
                   className={`${
                     isRecording ? "stop-button" : "start-button"
-                  } text-white bg-blue-500 py-2 px-4 rounded-md mb-2 w-full md:w-auto transition-transform transform hover:scale-105`}
+                  } text-white bg-pink-500 py-2 px-4 rounded-md mb-2 w-full md:w-auto transition-transform transform hover:scale-105`}
                   onClick={isRecording ? stopListening : startListening}
                 >
                   {isRecording ? "Stop Listening" : "Start Listening"}

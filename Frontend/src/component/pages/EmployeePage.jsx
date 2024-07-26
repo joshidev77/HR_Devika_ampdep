@@ -49,8 +49,10 @@ const App = () => {
 
       try {
         // Replace with your actual API endpoint
-        const response = await axios.post('http://your-api-endpoint/employee', { message: currentMessage });
-        setEmployees(response.data); // Assuming response.data is the table data
+        console.log(currentMessage)
+        const response = await axios.post('https://devjoshi77.pythonanywhere.com/request_query', { requery: currentMessage });
+        setEmployees(response.data.results); 
+        console.log(employees)
       } catch (error) {
         console.error("Error fetching data from API", error);
       }
@@ -80,24 +82,20 @@ const App = () => {
               {isRecording ? (
                 <FaMicrophone className="text-green-500 text-6xl md:text-9xl animate-pulse" />
               ) : (
-                <FaCommentDots className="text-blue-500 text-6xl md:text-9xl" />
+                <FaCommentDots className="text-pink-500 text-6xl md:text-9xl" />
               )}
             </div>
             <div className="w-full md:w-1/2 flex flex-col justify-between">
               <div className="message-list p-4 border-b border-gray-200 flex-grow overflow-y-auto">
                 {messages.length === 0 && !currentMessage ? (
-                  <p className="text-gray-700">
-                    Explain your Query...
-                  </p>
+                  <p className="text-gray-700">Explain your Query...</p>
                 ) : (
                   <>
                     {messages.map((msg) => (
                       <div
                         key={msg.id}
                         className={`message mb-2 p-2 rounded-lg ${
-                          msg.user === "User"
-                            ? "user-message"
-                            : "ai-message"
+                          msg.user === "User" ? "user-message" : "ai-message"
                         }`}
                       >
                         <strong>{msg.user}:</strong> {msg.text}
@@ -117,11 +115,10 @@ const App = () => {
                 )}
               </div>
               <div className="actions mt-4 flex flex-col items-center">
-               
                 <button
                   className={`${
                     isRecording ? "stop-button" : "start-button"
-                  } text-white bg-blue-500 py-2 px-4 rounded-md mb-2 w-full md:w-auto transition-transform transform hover:scale-105`}
+                  } text-white bg-pink-500 py-2 px-4 rounded-md mb-2 w-full md:w-auto transition-transform transform hover:scale-105`}
                   onClick={isRecording ? stopListening : startListening}
                 >
                   {isRecording ? "Fire Query 🔥" : "Start Listening Query 🔥"}
@@ -129,7 +126,7 @@ const App = () => {
               </div>
             </div>
           </div>
-          {employees.length > 0 && (
+          {/* {employees.length > 0 && (
             <div className="employee-table mt-8">
               <table className="min-w-full bg-white border border-gray-300">
                 <thead>
@@ -153,7 +150,7 @@ const App = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {employees.map(emp => (
+                  {employees.map((emp) => (
                     <tr key={emp.employee_id}>
                       <td className="border-b px-4 py-2">{emp.employee_id}</td>
                       <td className="border-b px-4 py-2">{emp.first_name}</td>
@@ -176,12 +173,13 @@ const App = () => {
                 </tbody>
               </table>
             </div>
-          )}
+          )} */}
         </div>
       </main>
       <Footer />
     </div>
   );
+  
 };
 
 export default App;

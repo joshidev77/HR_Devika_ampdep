@@ -32,7 +32,7 @@ const Confirmation = ({ handleConfirmation, setShowConfirmationDialog }) => {
         <div className="flex justify-center">
           <button
             onClick={handleConfirmation}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md mr-4 transition-colors duration-300"
+            className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-md mr-4 transition-colors duration-300"
           >
             Yes
           </button>

@@ -70,7 +70,7 @@ const ProfilePage = () => {
 
           <div className="flex items-center justify-center mt-8">
             <button
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+              className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
               onClick={() => navigate("/editprofile")} // Use the navigation function
             >
               Edit Profile

@@ -45,7 +45,7 @@ const Homepage = () => {
                 transition={{ duration: 0.5 }}
                 className="order-1 lg:order-2"
               >
-                <p className="text-base font-semibold tracking-wider text-blue-600 uppercase">
+                <p className="text-base font-semibold tracking-wider text-pink-600 uppercase">
                   Connect & learn
                 </p>
                 <h1 className="mt-4 text-4xl font-bold text-black lg:mt-8 sm:text-5xl xl:text-6xl">
@@ -60,7 +60,7 @@ const Homepage = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <p className="text-blue-600">Already joined us?</p>
+                    <p className="text-pink-600">Already joined us?</p>
                     <button
                       onClick={() => navigate("/login")}
                       className="ml-2 text-purple-600 font-semibold transition-all duration-200 hover:text-purple-800"
@@ -75,7 +75,7 @@ const Homepage = () => {
         </section>
       </div>
       {auth && (
-        <div className="bg-white from-bg-blue-200 to-bg-blue-500 py-8 sm:py-12 lg:py-16">
+        <div className="bg-white from-bg-pink-200 to-bg-pink-500 py-8 sm:py-12 lg:py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.h1
               className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-black text-center mb-8 sm:mb-10"
@@ -87,7 +87,7 @@ const Homepage = () => {
             </motion.h1>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
               <motion.button
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out flex items-center justify-center w-64 h-16"
+                className="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out flex items-center justify-center w-64 h-16"
                 onClick={() => navigate("/HR-Interview")}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -97,7 +97,7 @@ const Homepage = () => {
                 <FaArrowRight className="text-xl ml-3" />
               </motion.button>
               {/* <motion.button
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out flex items-center justify-center w-64 h-16"
+                className="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out flex items-center justify-center w-64 h-16"
                 onClick={() => navigate("/sanskrit")}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -107,7 +107,7 @@ const Homepage = () => {
                 <FaArrowRight className="text-xl ml-3" />
               </motion.button> */}
               <motion.button
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out flex items-center justify-center w-64 h-16"
+                className="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out flex items-center justify-center w-64 h-16"
                 onClick={() => navigate("/Employee-portal")}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
