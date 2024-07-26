@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { FaUserTie, FaQuestionCircle, FaArrowRight } from "react-icons/fa";
+import { FaUserTie, FaQuestionCircle, FaArrowRight, FaUser } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Lottie from "react-lottie";
 import robotAnimation from "../animations/animation.json";
@@ -87,7 +87,7 @@ const Homepage = () => {
             </motion.h1>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
               <motion.button
-                className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-lg shadow-lg transition duration-300 ease-in-out flex items-center justify-center w-64"
+                className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out flex items-center justify-center w-64 h-16"
                 onClick={() => navigate("/HR-Interview")}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -97,13 +97,23 @@ const Homepage = () => {
                 <FaArrowRight className="text-xl ml-3" />
               </motion.button>
               <motion.button
-                className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-lg shadow-lg transition duration-300 ease-in-out flex items-center justify-center w-64"
+                className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out flex items-center justify-center w-64 h-16"
                 onClick={() => navigate("/sanskrit")}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <FaQuestionCircle className="text-2xl mr-3" />
                 <span>View Q&A</span>
+                <FaArrowRight className="text-xl ml-3" />
+              </motion.button>
+              <motion.button
+                className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out flex items-center justify-center w-64 h-16"
+                onClick={() => navigate("/Employee-portal")}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <FaUser className="text-2xl mr-3" />
+                <span>Employee Portal</span>
                 <FaArrowRight className="text-xl ml-3" />
               </motion.button>
             </div>

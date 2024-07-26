@@ -1,5 +1,5 @@
 import "regenerator-runtime/runtime";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import useClipboard from "react-use-clipboard";
 import { FaMicrophone, FaCommentDots } from "react-icons/fa";
