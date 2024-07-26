@@ -32,35 +32,35 @@ function Navbar() {
               <a
                 href="#"
                 onClick={() => navigate("/homepage")}
-                className="text-gray-300 hover:bg-white hover:text-black px-3 py-2 rounded-md text-sm font-medium"
+                className="text-white hover:bg-white hover:text-black px-3 py-2 rounded-md text-sm font-medium"
               >
                 Home
               </a>
               <a
                 href="#"
                 onClick={() => navigate("/about-us")}
-                className="text-gray-300 hover:bg-white hover:text-black px-3 py-2 rounded-md text-sm font-medium"
+                className="text-white hover:bg-white hover:text-black px-3 py-2 rounded-md text-sm font-medium"
               >
                 About Us
               </a>
               <a
                 href="#"
                 onClick={() => navigate("/contact-us")}
-                className="text-gray-300 hover:bg-white hover:text-black px-3 py-2 rounded-md text-sm font-medium"
+                className="text-white hover:bg-white hover:text-black px-3 py-2 rounded-md text-sm font-medium"
               >
                 Contact Us
               </a>
               <a
                 href="#"
                 onClick={() => navigate("/profile")}
-                className="text-gray-300 hover:bg-white hover:text-black px-3 py-2 rounded-md text-sm font-medium"
+                className="text-white hover:bg-white hover:text-black px-3 py-2 rounded-md text-sm font-medium"
               >
                 Profile Page
               </a>
               <a
                 href="#"
                 onClick={handleSignOut}
-                className="text-gray-300 hover:bg-white hover:text-black px-3 py-2 rounded-md text-sm font-medium"
+                className="text-white hover:bg-white hover:text-black px-3 py-2 rounded-md text-sm font-medium"
               >
                 Logout
               </a>
@@ -117,35 +117,35 @@ function Navbar() {
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
           <a
             href="/homepage"
-            className="text-gray-300 hover:bg-white hover:text-black block px-3 py-2 rounded-md text-base font-medium"
+            className="text-white hover:bg-white hover:text-black block px-3 py-2 rounded-md text-base font-medium"
           >
             Home
           </a>
           <a
             href="#"
             onClick={() => navigate("/about-us")}
-            className="text-gray-300 hover:bg-white hover:text-black block px-3 py-2 rounded-md text-base font-medium"
+            className="text-white hover:bg-white hover:text-black block px-3 py-2 rounded-md text-base font-medium"
           >
             About Us
           </a>
           <a
             href="#"
             onClick={() => navigate("/contact-us")}
-            className="text-gray-300 hover:bg-white hover:text-black block px-3 py-2 rounded-md text-base font-medium"
+            className="text-white hover:bg-white hover:text-black block px-3 py-2 rounded-md text-base font-medium"
           >
             Contact Us
           </a>
           <a
             href="#"
             onClick={() => navigate("/profile")}
-            className="text-gray-300 hover:bg-white hover:text-black block px-3 py-2 rounded-md text-base font-medium"
+            className="text-white hover:bg-white hover:text-black block px-3 py-2 rounded-md text-base font-medium"
           >
             Profile
           </a>
           <a
             href="#"
             onClick={handleSignOut}
-            className="text-gray-300 hover:bg-white hover:text-black block px-3 py-2 rounded-md text-base font-medium"
+            className="text-white hover:bg-white hover:text-black block px-3 py-2 rounded-md text-base font-medium"
           >
             Logout
           </a>
