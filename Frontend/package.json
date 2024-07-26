@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@babel/runtime": "^7.24.8",
     "@emailjs/browser": "^4.3.3",
     "bootstrap": "^5.3.3",
     "firebase": "^10.10.0",
@@ -23,7 +24,9 @@
     "react-lottie": "^1.2.4",
     "react-phone-input-2": "^2.15.1",
     "react-router-dom": "^6.22.3",
+    "react-speech-recognition": "^3.10.0",
     "react-toastify": "^10.0.5",
+    "react-use-clipboard": "^1.0.9",
     "recorder-js": "^1.0.7",
     "routes": "^2.1.0",
     "toast": "^0.5.4",
@@ -31,6 +34,9 @@
     "web-vitals": "^3.1.0"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.24.7",
+    "@babel/preset-env": "^7.24.8",
+    "@babel/preset-react": "^7.24.7",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.2.1",
