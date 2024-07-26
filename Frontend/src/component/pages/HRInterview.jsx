@@ -15,6 +15,7 @@ const App = () => {
   });
   const [isRecording, setIsRecording] = useState(false);
   const [messages, setMessages] = useState([]);
+  const [currentMessage, setCurrentMessage] = useState("");
 
   const {
     transcript,
@@ -25,24 +26,29 @@ const App = () => {
 
   useEffect(() => {
     if (isRecording && transcript) {
-      setMessages([{ user: "User", text: transcript }]);
+      setCurrentMessage(transcript);
     }
   }, [transcript, isRecording]);
 
   const startListening = () => {
     setIsRecording(true);
     resetTranscript();
+    setCurrentMessage("");
     SpeechRecognition.startListening({ continuous: true, language: "en-IN" });
   };
 
   const stopListening = () => {
     setIsRecording(false);
     SpeechRecognition.stopListening();
-    if (transcript) {
-      setMessages([{ question: transcript }]);
-      console.log(messages);
-      setTextToCopy(transcript);
+    if (currentMessage) {
+      const newMessage = { user: "User", text: currentMessage };
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+      setTextToCopy(currentMessage);
+
+      // Simulate sending to backend
+      console.log("Sending to backend:", currentMessage);
     }
+    setCurrentMessage("");
   };
 
   useEffect(() => {
@@ -70,16 +76,23 @@ const App = () => {
             </div>
             <div className="w-full md:w-1/2 flex flex-col justify-between">
               <div className="p-4 border-b border-gray-200 flex-grow overflow-y-auto max-h-48 md:max-h-64">
-                {messages.length === 0 ? (
+                {messages.length === 0 && !currentMessage ? (
                   <p className="text-gray-700">
                     Your speech will be converted to text here...
                   </p>
                 ) : (
-                  messages.map((msg, index) => (
-                    <div key={index} className="mb-2">
-                      <strong>{msg.user}:</strong> {msg.text}
-                    </div>
-                  ))
+                  <>
+                    {messages.map((msg, index) => (
+                      <div key={index} className="mb-2">
+                        <strong>{msg.user}:</strong> {msg.text}
+                      </div>
+                    ))}
+                    {currentMessage && (
+                      <div className="mb-2">
+                        <strong>User (current):</strong> {currentMessage}
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
               <div className="mt-4 flex flex-col items-center">
