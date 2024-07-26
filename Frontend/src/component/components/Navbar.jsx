@@ -70,7 +70,7 @@ function Navbar() {
             <button
               onClick={toggleMenu}
               type="button"
-              className="bg-gray-900 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-black hover:bg-white-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+              className="bg-white-900 inline-flex items-center justify-center p-2 rounded-md text-pink-400 hover:text-black hover:bg-white-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
               aria-controls="mobile-menu"
               aria-expanded="false"
             >

@@ -128,12 +128,12 @@ const App = () => {
                 )}
               </div>
               <div className="actions mt-4 flex flex-col items-center">
-                <button
+                {/* <button
                   className="copy-button bg-pink-500 text-white py-2 px-4 rounded-md mb-2 w-full md:w-auto transition-transform transform hover:scale-105"
                   onClick={setCopied} 
                 >
                   {isCopied ? "Copied!" : "Copy to clipboard"}
-                </button>
+                </button> */}
                 <button
                   className={`${
                     isRecording ? "stop-button" : "start-button"
