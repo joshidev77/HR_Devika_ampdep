@@ -1,8 +1,6 @@
 import "regenerator-runtime/runtime";
 import React, { useState, useEffect } from "react";
-import SpeechRecognition, {
-  useSpeechRecognition,
-} from "react-speech-recognition";
+import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import useClipboard from "react-use-clipboard";
 import { FaMicrophone, FaCommentDots } from "react-icons/fa";
 import Navbar from "../components/Navbar";
@@ -16,6 +14,7 @@ const App = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [messages, setMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState("");
+  const [waitingForResponse, setWaitingForResponse] = useState(false);
 
   const {
     transcript,
@@ -41,14 +40,30 @@ const App = () => {
     setIsRecording(false);
     SpeechRecognition.stopListening();
     if (currentMessage) {
-      const newMessage = { user: "User", text: currentMessage };
+      const newMessage = { user: "User", text: currentMessage, id: Date.now() };
       setMessages((prevMessages) => [...prevMessages, newMessage]);
       setTextToCopy(currentMessage);
+      setWaitingForResponse(true);
 
       // Simulate sending to backend
       console.log("Sending to backend:", currentMessage);
+      
+      // Replace with actual backend call
+      simulateBackendResponse(currentMessage);
     }
     setCurrentMessage("");
+  };
+
+  const simulateBackendResponse = async (message) => {
+    // Simulate a delay for the backend response
+    setTimeout(() => {
+      const aiResponse = "This is a simulated AI response."; // Replace with backend response
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { user: "AI", text: aiResponse, id: Date.now() },
+      ]);
+      setWaitingForResponse(false);
+    }, 2000); // Simulate network delay
   };
 
   useEffect(() => {
@@ -62,12 +77,12 @@ const App = () => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="app-container flex flex-col min-h-screen">
       <Navbar />
-      <main className="flex-grow flex items-center justify-center bg-gray-100 p-4">
-        <div className="bg-white rounded-lg shadow-lg p-4 w-full max-w-4xl">
+      <main className="main-content flex-grow flex items-center justify-center bg-gray-100 p-4">
+        <div className="chat-box bg-white rounded-lg shadow-lg p-4 w-full max-w-4xl">
           <div className="flex flex-col md:flex-row">
-            <div className="flex justify-center items-center p-4 border-b md:border-b-0 md:border-r border-gray-200 w-full md:w-1/2">
+            <div className="icon-container flex justify-center items-center p-4 border-b md:border-b-0 md:border-r border-gray-200 w-full md:w-1/2">
               {isRecording ? (
                 <FaMicrophone className="text-green-500 text-6xl md:text-9xl animate-pulse" />
               ) : (
@@ -75,19 +90,31 @@ const App = () => {
               )}
             </div>
             <div className="w-full md:w-1/2 flex flex-col justify-between">
-              <div className="p-4 border-b border-gray-200 flex-grow overflow-y-auto max-h-48 md:max-h-64">
+              <div className="message-list p-4 border-b border-gray-200 flex-grow overflow-y-auto">
                 {messages.length === 0 && !currentMessage ? (
                   <p className="text-gray-700">
                     Your speech will be converted to text here...
                   </p>
                 ) : (
                   <>
-                    {messages.map((msg, index) => (
-                      <div key={index} className="mb-2">
+                    {messages.map((msg) => (
+                      <div
+                        key={msg.id}
+                        className={`message mb-2 p-2 rounded-lg ${
+                          msg.user === "User"
+                            ? "user-message"
+                            : "ai-message"
+                        }`}
+                      >
                         <strong>{msg.user}:</strong> {msg.text}
                       </div>
                     ))}
-                    {currentMessage && (
+                    {waitingForResponse && (
+                      <div className="mb-2 text-gray-500">
+                        <strong>AI (waiting for response):</strong> Please wait...
+                      </div>
+                    )}
+                    {!waitingForResponse && currentMessage && (
                       <div className="mb-2">
                         <strong>User (current):</strong> {currentMessage}
                       </div>
@@ -95,16 +122,16 @@ const App = () => {
                   </>
                 )}
               </div>
-              <div className="mt-4 flex flex-col items-center">
+              <div className="actions mt-4 flex flex-col items-center">
                 <button
-                  className="bg-blue-500 text-white py-2 px-4 rounded-md mb-2 w-full md:w-auto transition-transform transform hover:scale-105"
+                  className="copy-button bg-blue-500 text-white py-2 px-4 rounded-md mb-2 w-full md:w-auto transition-transform transform hover:scale-105"
                   onClick={setCopied}
                 >
                   {isCopied ? "Copied!" : "Copy to clipboard"}
                 </button>
                 <button
                   className={`${
-                    isRecording ? "bg-red-500" : "bg-green-500"
+                    isRecording ? "stop-button" : "start-button"
                   } text-white py-2 px-4 rounded-md mb-2 w-full md:w-auto transition-transform transform hover:scale-105`}
                   onClick={isRecording ? stopListening : startListening}
                 >

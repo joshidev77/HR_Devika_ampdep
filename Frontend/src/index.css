@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.user-message {
+    background-color: #e0f7fa; /* Light blue background for user messages */
+    color: #00796b; /* Dark teal text color */
+  }
+  
+  .ai-message {
+    background-color: #f1f8e9; /* Light green background for AI messages */
+    color: #33691e; /* Dark green text color */
+  }
+  
+  .message {
+    border-radius: 8px;
+    padding: 8px;
+    margin-bottom: 8px;
+  }
+  
