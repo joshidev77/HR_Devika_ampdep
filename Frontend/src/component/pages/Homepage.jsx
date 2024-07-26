@@ -49,7 +49,7 @@ const Homepage = () => {
                   Connect & learn
                 </p>
                 <h1 className="mt-4 text-4xl font-bold text-black lg:mt-8 sm:text-5xl xl:text-6xl">
-                  HR Devika
+                  HR देविका
                 </h1>
                 <p className="mt-4 text-base text-black lg:mt-8 sm:text-xl">
                   Status Code-404
