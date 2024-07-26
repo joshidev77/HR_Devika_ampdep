@@ -1,5 +1,5 @@
 import "regenerator-runtime/runtime";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
@@ -16,8 +16,22 @@ const App = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [messages, setMessages] = useState([]);
 
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+
+  useEffect(() => {
+    if (isRecording && transcript) {
+      setMessages([{ user: "User", text: transcript }]);
+    }
+  }, [transcript, isRecording]);
+
   const startListening = () => {
     setIsRecording(true);
+    resetTranscript();
     SpeechRecognition.startListening({ continuous: true, language: "en-IN" });
   };
 
@@ -25,14 +39,17 @@ const App = () => {
     setIsRecording(false);
     SpeechRecognition.stopListening();
     if (transcript) {
-      setMessages([...messages, { user: "User", text: transcript }]);
+      setMessages([{ question: transcript }]);
       console.log(messages);
       setTextToCopy(transcript);
     }
   };
 
-  const { transcript, browserSupportsSpeechRecognition } =
-    useSpeechRecognition();
+  useEffect(() => {
+    if (!listening && isRecording) {
+      stopListening();
+    }
+  }, [listening, isRecording]);
 
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn't support speech recognition.</span>;
