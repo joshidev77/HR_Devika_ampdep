@@ -116,6 +116,17 @@ const Homepage = () => {
                 <span>Employee Portal</span>
                 <FaArrowRight className="text-xl ml-3" />
               </motion.button>
+
+              <motion.button
+                className="bg-pink-600 hover:bg-pink-500 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out flex items-center justify-center w-64 h-16"
+                onClick={() => navigate("/search-candidate")}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <FaUser className="text-2xl mr-3" />
+                <span>Search Candidate</span>
+                <FaArrowRight className="text-xl ml-3" />
+              </motion.button>
             </div>
           </div>
         </div>

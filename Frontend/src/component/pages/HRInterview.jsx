@@ -1,11 +1,13 @@
 import "regenerator-runtime/runtime";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import useClipboard from "react-use-clipboard";
 import { FaMicrophone, FaCommentDots } from "react-icons/fa";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import axios from "axios";
+// Optionally, import a sanitization library like dompurify
+// import DOMPurify from 'dompurify';
 
 const App = () => {
   const [textToCopy, setTextToCopy] = useState("");
@@ -23,6 +25,8 @@ const App = () => {
     resetTranscript,
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
+
+  const messageListRef = useRef(null);
 
   useEffect(() => {
     // Check if the page was reloaded
@@ -69,13 +73,16 @@ const App = () => {
       setMessages((prevMessages) => [...prevMessages, newMessage]);
       setTextToCopy(currentMessage);
       setWaitingForResponse(true);
+      console.log(currentMessage)
       try {
         const response = await axios.post("https://devjoshi77.pythonanywhere.com/interview", {
           candidate_input: currentMessage
         });
-        console.log(response.data.hr_response)
+        console.log(await response.data.hr_response)
         let aiResponseText;
         if (response.data) {
+          // Optional: Sanitize HTML response if using a library
+          // aiResponseText = DOMPurify.sanitize(response.data.hr_response) || 'No message received';
           aiResponseText = response.data.hr_response || 'No message received';
         } else {
           aiResponseText = 'Unexpected response format';
@@ -83,7 +90,7 @@ const App = () => {
   
         setMessages((prevMessages) => [
          ...prevMessages,
-          { user: "AI", text: aiResponseText, id: Date.now() },
+          { user: "AI", text: aiResponseText, id: Date.now(), isHtml: true }, // Added isHtml flag
         ]);
       } catch (error) {
         console.error("Error sending message to the backend:", error);
@@ -99,6 +106,13 @@ const App = () => {
       stopListening();
     }
   }, [listening, isRecording]);
+
+  useEffect(() => {
+    // Scroll to the bottom of the message list when new messages are added
+    if (messageListRef.current) {
+      messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn't support speech recognition.</span>;
@@ -123,7 +137,10 @@ const App = () => {
               )}
             </div>
             <div className="w-full md:w-1/2 flex flex-col justify-between">
-              <div className="message-list p-4 border-b border-gray-200 flex-grow overflow-y-auto">
+              <div 
+                className="message-list p-4 border-b border-gray-200 flex-grow overflow-y-auto" 
+                ref={messageListRef}
+              >
                 {messages.length === 0 && !currentMessage ? (
                   <p className="text-gray-700">
                     Your speech will be converted to text here...
@@ -138,9 +155,9 @@ const App = () => {
                             ? "user-message"
                             : "ai-message"
                         }`}
-                      >
-                        <strong>{msg.user}:</strong> {msg.text}
-                      </div>
+                        // Conditionally apply dangerouslySetInnerHTML
+                        {...(msg.isHtml ? { dangerouslySetInnerHTML: { __html: msg.text } } : { children: <><strong>{msg.user}:</strong> {msg.text}</> })}
+                      />
                     ))}
                     {waitingForResponse && (
                       <div className="mb-2 text-pink-500">

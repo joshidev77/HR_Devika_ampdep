@@ -15,6 +15,7 @@ import ProfileEditPage from "./component/pages/profile_edit_page.jsx";
 import ProtectedRoutes from "../src/context/ProtectedRoutes.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import EmployeePage from "./component/pages/EmployeePage.jsx";
+import SearchPage from "./component/pages/SearchPage.jsx";
 
 const AppRoutes = () => {
   return (
@@ -45,6 +46,14 @@ const AppRoutes = () => {
               element={
                 <ProtectedRoutes>
                   <EmployeePage />
+                </ProtectedRoutes>
+              }
+            />
+            <Route
+              path="/search-candidate"
+              element={
+                <ProtectedRoutes>
+                  <SearchPage />
                 </ProtectedRoutes>
               }
             />
