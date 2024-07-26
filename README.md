@@ -29,6 +29,16 @@ The app's automated interview process and real-time feedback keep candidates eng
 ## Challenges
 Overall, the web application aims to streamline HR processes by providing a dynamic, engaging, and efficient platform that enhances the HR experience for both candidates and HR professionals.
 
+## 🛠️ Functionality
+
+Devika is designed to streamline and enhance HR processes through automation and advanced machine learning. The main functionalities of the Devika project are:
+
+### 1. Automated Interviews
+Devika allows HR professionals to conduct automated interviews with candidates. The system uses predefined questions and records the candidate's responses. During the interview, the software analyzes the candidate's facial expressions using a Hugging Face pre-trained model to detect emotions, providing real-time feedback and insights into the candidate's behavior and emotional state.
+
+### 2. Candidate Assessment through SQL Queries
+After the interview, HR professionals can assess the candidate's responses and overall performance by firing SQL queries. This feature enables HR to retrieve specific data points and metrics from the interview records, facilitating a thorough and data-driven evaluation of the candidate's suitability for the role. The assessment process is streamlined and efficient, leveraging SQL queries to analyze and interpret the collected data accurately.
+
 Certainly! Here are the challenges we came across:
 
 #### 1. Integration of Hugging Face Models
