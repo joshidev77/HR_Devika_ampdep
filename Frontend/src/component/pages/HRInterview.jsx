@@ -79,6 +79,11 @@ const App = () => {
   return (
     <div className="app-container flex flex-col min-h-screen">
       <Navbar />
+      <header className="header py-6">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-3xl md:text-5xl font-bold">Let's Have Interview</h1>
+        </div>
+      </header>
       <main className="main-content flex-grow flex items-center justify-center bg-gray-100 p-4">
         <div className="chat-box bg-white rounded-lg shadow-lg p-4 w-full max-w-4xl">
           <div className="flex flex-col md:flex-row">
@@ -110,8 +115,8 @@ const App = () => {
                       </div>
                     ))}
                     {waitingForResponse && (
-                      <div className="mb-2 text-gray-500">
-                        <strong>AI (waiting for response):</strong> Please wait...
+                      <div className="mb-2 text-blue-500">
+                        <strong>Devika (waiting for response):</strong> Please wait...
                       </div>
                     )}
                     {!waitingForResponse && currentMessage && (
@@ -125,14 +130,14 @@ const App = () => {
               <div className="actions mt-4 flex flex-col items-center">
                 <button
                   className="copy-button bg-blue-500 text-white py-2 px-4 rounded-md mb-2 w-full md:w-auto transition-transform transform hover:scale-105"
-                  onClick={setCopied}
+                  onClick={setCopied} 
                 >
                   {isCopied ? "Copied!" : "Copy to clipboard"}
                 </button>
                 <button
                   className={`${
                     isRecording ? "stop-button" : "start-button"
-                  } text-white py-2 px-4 rounded-md mb-2 w-full md:w-auto transition-transform transform hover:scale-105`}
+                  } text-white bg-blue-500 py-2 px-4 rounded-md mb-2 w-full md:w-auto transition-transform transform hover:scale-105`}
                   onClick={isRecording ? stopListening : startListening}
                 >
                   {isRecording ? "Stop Listening" : "Start Listening"}

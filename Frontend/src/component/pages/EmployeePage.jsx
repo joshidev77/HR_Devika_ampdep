@@ -87,7 +87,7 @@ const App = () => {
               <div className="message-list p-4 border-b border-gray-200 flex-grow overflow-y-auto">
                 {messages.length === 0 && !currentMessage ? (
                   <p className="text-gray-700">
-                    Your speech will be converted to text here...
+                    Explain your Query...
                   </p>
                 ) : (
                   <>
@@ -124,7 +124,7 @@ const App = () => {
                   } text-white bg-blue-500 py-2 px-4 rounded-md mb-2 w-full md:w-auto transition-transform transform hover:scale-105`}
                   onClick={isRecording ? stopListening : startListening}
                 >
-                  {isRecording ? "Stop Listening" : "Start Listening"}
+                  {isRecording ? "Fire Query 🔥" : "Start Listening Query 🔥"}
                 </button>
               </div>
             </div>
