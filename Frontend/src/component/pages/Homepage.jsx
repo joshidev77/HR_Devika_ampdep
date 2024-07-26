@@ -87,7 +87,7 @@ const Homepage = () => {
             </motion.h1>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
               <motion.button
-                className="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out flex items-center justify-center w-64 h-16"
+                className="bg-pink-600 hover:bg-pink-500 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out flex items-center justify-center w-64 h-16"
                 onClick={() => navigate("/HR-Interview")}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -107,7 +107,7 @@ const Homepage = () => {
                 <FaArrowRight className="text-xl ml-3" />
               </motion.button> */}
               <motion.button
-                className="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out flex items-center justify-center w-64 h-16"
+                className="bg-pink-600 hover:bg-pink-500 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out flex items-center justify-center w-64 h-16"
                 onClick={() => navigate("/Employee-portal")}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
