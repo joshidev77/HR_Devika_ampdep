@@ -1,4 +1,4 @@
-# HR - Devika
+# Devika
 
 Devika is a Virtual HR Software: Create a web application for automating HR processes, including conducting interviews, managing employee data, and analyzing candidate behavior. The app utilizes advanced machine learning models to detect facial expressions and provide feedback on emotions.
 
@@ -65,3 +65,59 @@ Overcoming these challenges requires technical expertise, thorough research, and
 
 ```bash
 git clone https://github.com/yourusername/devika.git
+```
+
+2. Navigate to the frontend directory:
+
+```bash
+cd ./client
+```
+
+3. Install dependencies:
+
+```bash
+npm install
+```
+
+4. Start the frontend:
+
+```bash
+npm run dev
+```
+
+This will start the development server for the frontend. You can access it at http://localhost:3000 in your web browser.
+
+## Backend
+The backend of this project is built using Python Flask.
+
+## Running the Backend
+To run the backend, follow these steps:
+
+1. Navigate to the backend directory:
+
+```bash
+cd ./server
+```
+
+2. Install Flask and other dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+3. Start the backend server:
+
+```bash
+python ./app.py runserver
+```
+
+This will start the Flask development server. You can access it at http://localhost:8000 in your web browser.
+
+## 🌐 Live Demo
+Check out the live demo at https://devikahr.netlify.app/. 🚀
+
+## 🤝 Contributing
+If you'd like to contribute to this project, please fork the repository and submit a pull request. You can also open an issue if you have any suggestions or find any bugs. 🐛
+
+## 📄 License
+This project is licensed under the MIT License.
