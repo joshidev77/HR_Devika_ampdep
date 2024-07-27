@@ -11,12 +11,13 @@ CORS(app)
 Tableschema = "TABLE employeedata (employee_id SERIAL PRIMARY KEY,first_name VARCHAR(50) NOT NULL, last_name VARCHAR(50) NOT NULL,gender VARCHAR(10) CHECK (gender IN ('Male', 'Female', 'Other')),date_of_birth DATE NOT NULL,email VARCHAR(100) UNIQUE NOT NULL,phone_number VARCHAR(20),hire_date DATE NOT NULL,job_title VARCHAR(50) NOT NULL,department VARCHAR(50) NOT NULL,salary DECIMAL(10, 2) NOT NULL,address VARCHAR(255),city VARCHAR(50),state VARCHAR(50),postal_code VARCHAR(20),country VARCHAR(50))......this is the schema for my database table, can you generate me the sql query in single line for the statement : "
 
 database_config = {
-    "host": "roundhouse.proxy.rlwy.net",
-    "port": 44347,
+    "host": "c6hdr9kd0hclf3ce1v37v3kqmc.ingress.dal.leet.haus",
+    "port": 3306,  # Use the appropriate port for your database, 3306 is default for MySQL
     "database": "railway",
     "user": "root",
-    "password": "dxHtGTQnJaPXEeXiifplXAfHnbWbkYHr"
+    "password": "root"
 }
+
 
 def run_query(query, params=None):
     conn = None
