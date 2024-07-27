@@ -8,13 +8,12 @@ import {
   getDocs,
   doc,
   updateDoc,
-} from "firebase/firestore"; // Importing `doc` and `updateDoc`
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; // Importing `ref`, `uploadBytes`, and `getDownloadURL`
-import { v4 } from "uuid"; // Importing `v4` from UUID
+} from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { v4 } from "uuid";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "../components/Footer";
-import { db, storage } from "../../firebase/Firebase"; // Importing `storage`
-import { data } from "autoprefixer";
+import { db, storage } from "../../firebase/Firebase";
 
 function ProfileEditPage() {
   const [id, setId] = useState(null);
@@ -22,6 +21,7 @@ function ProfileEditPage() {
   const [email, setEmail] = useState("");
   const [description, setDescription] = useState("");
   const [photo, setPhoto] = useState(null);
+  const [photoURL, setPhotoURL] = useState(null);
   const navigate = useNavigate();
   const [data, setData] = useState(null);
 
@@ -40,55 +40,57 @@ function ProfileEditPage() {
   const getQuery = async (q) => {
     const querySnapshot = await getDocs(q);
     if (!querySnapshot.empty) {
-      const doc = querySnapshot.docs[0]; // Assuming there's only one user with the specified email
+      const doc = querySnapshot.docs[0];
       const userData = doc.data();
-      // console.log(doc.id, " => ", userData);
       setData(userData);
       setId(doc.id);
       setName(userData?.Name);
       setEmail(userData?.Email);
       setDescription(userData?.Description);
-      setPhoto(userData?.ProfilePicture);
+      setPhotoURL(userData?.ProfilePicture);
     } else {
-      // console.log("No matching documents.");
+      console.log("No matching documents.");
     }
   };
 
   const handlePhotoChange = (e) => {
-    setPhoto(e.target.files[0]);
+    if (e.target.files[0]) {
+      setPhoto(e.target.files[0]);
+      setPhotoURL(URL.createObjectURL(e.target.files[0]));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Log the ID to see if it's correct
-    // console.log("ID:", id);
-
+    
     let updateData = {
       Name: name,
       Email: email,
       Description: description,
     };
 
-    // Check if a new photo is selected
-    if (photo) {
-      const imgRef = ref(storage, `files/${v4()}`);
-      await uploadBytes(imgRef, photo);
-      const downloadURL = await getDownloadURL(imgRef);
-      // console.log("New file available at", downloadURL);
-      updateData.ProfilePicture = downloadURL;
-    } else {
-      // Keep the existing profile picture if no new photo is selected
-      updateData.ProfilePicture = data.ProfilePicture;
-    }
+    try {
+      if (photo) {
+        const imgRef = ref(storage, `files/${v4()}`);
+        await uploadBytes(imgRef, photo);
+        const downloadURL = await getDownloadURL(imgRef);
+        console.log("New file available at", downloadURL);
+        updateData.ProfilePicture = downloadURL;
+      } else {
+        updateData.ProfilePicture = data.ProfilePicture;
+      }
 
-    console.log(updateData);
-    // Check if `id` is not null or undefined before updating
-    if (id) {
-      await updateDoc(doc(db, "users", id), updateData);
-      toast.success("Profile updated successfully!");
-      navigate("/profile");
-    } else {
-      console.error("Error: ID is null or undefined");
+      if (id) {
+        await updateDoc(doc(db, "users", id), updateData);
+        toast.success("Profile updated successfully!");
+        navigate("/profile");
+      } else {
+        console.error("Error: ID is null or undefined");
+        toast.error("Failed to update profile. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      toast.error("Failed to update profile. Please try again.");
     }
   };
 
@@ -101,7 +103,7 @@ function ProfileEditPage() {
             <div className="flex items-center justify-center mb-4">
               <img
                 className="w-32 h-32 rounded-full object-cover"
-                src={photo || "https://via.placeholder.com/150"}
+                src={photoURL || "https://via.placeholder.com/150"}
                 alt="Profile"
               />
               <label
@@ -124,7 +126,6 @@ function ProfileEditPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-
             <textarea
               name="description"
               placeholder="Description"
