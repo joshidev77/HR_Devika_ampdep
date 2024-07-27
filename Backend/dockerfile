@@ -1,13 +1,12 @@
-# Use the official PostgreSQL image from the Docker Hub
-FROM postgres:13
+# Use the official MySQL image from the Docker Hub
+FROM mysql:latest
 
-# Set environment variables
-ENV POSTGRES_USER=root
-ENV POSTGRES_PASSWORD=root
-ENV POSTGRES_DB=employee
+# Set environment variables for MySQL
+ENV MYSQL_ROOT_PASSWORD=root
+ENV MYSQL_DATABASE=employee
 
-# Copy the SQL file to the Docker image
+# Copy the SQL file into the Docker image
 COPY init.sql /docker-entrypoint-initdb.d/
 
-# Expose the default PostgreSQL port
-EXPOSE 5432
+# Expose the port MySQL will run on
+EXPOSE 3306
