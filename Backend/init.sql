@@ -1,4 +1,3 @@
-Create database employee;
 use employee;
 
 CREATE TABLE employee (
@@ -17,7 +16,7 @@ CREATE TABLE employee (
     city VARCHAR(50),
     state VARCHAR(50),
     postal_code VARCHAR(20),
-    country VARCHAR(50)
+    countr VARCHAR(50)
 );
 
 INSERT INTO employee (first_name, last_name, gender, date_of_birth, email, phone_number, hire_date, job_title, department, salary, address, city, state, postal_code, country) VALUES
