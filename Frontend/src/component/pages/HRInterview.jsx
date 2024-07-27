@@ -164,16 +164,21 @@ const App = () => {
       <main className="main-content flex-grow flex items-center justify-center bg-gray-100 p-4">
         <div className="chat-box bg-white rounded-lg shadow-lg p-4 w-full max-w-4xl flex flex-col">
           <div className="flex flex-col md:flex-row h-full">
-            <div className="icon-container flex justify-center items-center p-4 border-b md:border-b-0 md:border-r border-gray-200 w-full md:w-1/2 h-48 md:h-auto">
+            <div className="icon-container flex justify-center items-center p-4 border-b md:border-b-0 md:border-r border-gray-200 w-full md:w-1/2 h-48 md:h-auto bg-gray-200">
               {isRecording ? (
-                <FaMicrophone className="text-green-500 text-6xl md:text-9xl animate-pulse" />
+                <FaMicrophone className="text-green-500 text-6xl md:text-9xl animate-pulse w-full h-full object-cover" />
               ) : (
-                <img src={woman} alt="Woman animation" className="w-full h-full object-cover" />
+                <img
+                  src={woman}
+                  alt="Woman animation"
+                  className="w-full h-full object-cover"
+                  onError={(e) => e.target.src = 'path/to/placeholder.png'} // Path to a placeholder image
+                />
               )}
             </div>
             <div className="w-full md:w-1/2 flex flex-col">
-              <div 
-                className="message-list p-4 border-b border-gray-200 flex-grow overflow-y-auto h-48 md:h-auto" 
+              <div
+                className="message-list p-4 border-b border-gray-200 flex-grow overflow-y-auto h-48 md:h-auto"
                 ref={messageListRef}
               >
                 {messages.length === 0 && !currentMessage ? (
