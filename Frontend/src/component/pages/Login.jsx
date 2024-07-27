@@ -108,7 +108,7 @@ function RegisterAndLogin() {
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
         <div className="mb-4">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center text-purple-700">
-            भाषा Tuner
+          HR देविका
           </h1>
         </div>
         <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
