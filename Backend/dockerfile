@@ -1,3 +1,13 @@
-FROM mysql:latest
-ENV MYSQL_ROOT_PASSWORD=root
-COPY ./database_image.sql /docker-entrypoint-initdb.d/
+# Use the official PostgreSQL image from the Docker Hub
+FROM postgres:13
+
+# Set environment variables
+ENV POSTGRES_USER=root
+ENV POSTGRES_PASSWORD=root
+ENV POSTGRES_DB=employee
+
+# Copy the SQL file to the Docker image
+COPY init.sql /docker-entrypoint-initdb.d/
+
+# Expose the default PostgreSQL port
+EXPOSE 5432
