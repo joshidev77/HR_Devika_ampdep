@@ -68,7 +68,7 @@ const App = () => {
       setMessages([]);
       setCurrentMessage("");
       resetTranscript();
-      console.log(URL);
+
       axios
         .post(URL, {
           candidate_input:
