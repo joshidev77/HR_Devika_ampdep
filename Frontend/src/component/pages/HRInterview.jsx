@@ -1,6 +1,8 @@
 import "regenerator-runtime/runtime";
 import { useState, useEffect, useRef } from "react";
-import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 import useClipboard from "react-use-clipboard";
 import { FaMicrophone } from "react-icons/fa";
 import Navbar from "../components/Navbar";
@@ -20,7 +22,7 @@ const App = () => {
   const [utterance, setUtterance] = useState(null);
   const [voice, setVoice] = useState(null);
   const [isSpeaking, setIsSpeaking] = useState(false);
-
+  let URL = import.meta.env.VITE_INTERVIEW_URL;
   const {
     transcript,
     listening,
@@ -66,12 +68,15 @@ const App = () => {
       setMessages([]);
       setCurrentMessage("");
       resetTranscript();
-
-      axios.post("https://devjoshi77.pythonanywhere.com/interview", {
-        candidate_input: "Sorry, the page was reloaded. Please restart the test."
-      }).catch((error) => {
-        console.error("Error sending message to the backend:", error);
-      });
+      console.log(URL);
+      axios
+        .post(URL, {
+          candidate_input:
+            "Sorry, the page was reloaded. Please restart the test.",
+        })
+        .catch((error) => {
+          console.error("Error sending message to the backend:", error);
+        });
     } else {
       sessionStorage.setItem("pageReloaded", "true");
     }
@@ -99,18 +104,21 @@ const App = () => {
       setTextToCopy(currentMessage);
       setWaitingForResponse(true);
       try {
-        const response = await axios.post("https://devjoshi77.pythonanywhere.com/interview", {
-          candidate_input: currentMessage
-        });
+        const response = await axios.post(
+          "https://devjoshi77.pythonanywhere.com/interview",
+          {
+            candidate_input: currentMessage,
+          }
+        );
         let aiResponseText;
         if (response.data) {
-          aiResponseText = response.data.hr_response || 'No message received';
+          aiResponseText = response.data.hr_response || "No message received";
         } else {
-          aiResponseText = 'Unexpected response format';
+          aiResponseText = "Unexpected response format";
         }
 
         setMessages((prevMessages) => [
-         ...prevMessages,
+          ...prevMessages,
           { user: "AI", text: aiResponseText, id: Date.now(), isHtml: true },
         ]);
 
@@ -127,7 +135,7 @@ const App = () => {
   const speakText = (text) => {
     if (utterance) {
       window.speechSynthesis.cancel();
-      const plainText = text.replace(/<[^>]*>?/gm, '');
+      const plainText = text.replace(/<[^>]*>?/gm, "");
       utterance.text = plainText;
       utterance.voice = voice;
       utterance.volume = 1;
@@ -158,7 +166,9 @@ const App = () => {
       <Navbar />
       <header className="header py-6">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-3xl md:text-5xl font-bold">Let's Have an Interview</h1>
+          <h1 className="text-3xl md:text-5xl font-bold">
+            Let's Have an Interview
+          </h1>
         </div>
       </header>
       <main className="main-content flex-grow flex items-center justify-center bg-gray-100 p-4">
@@ -172,7 +182,7 @@ const App = () => {
                   src={woman}
                   alt="Woman animation"
                   className="w-full h-full object-cover"
-                  onError={(e) => e.target.src = 'path/to/placeholder.png'} // Path to a placeholder image
+                  onError={(e) => (e.target.src = "path/to/placeholder.png")} // Path to a placeholder image
                 />
               )}
             </div>
@@ -191,16 +201,23 @@ const App = () => {
                       <div
                         key={msg.id}
                         className={`message mb-2 p-2 rounded-lg ${
-                          msg.user === "User"
-                            ? "user-message"
-                            : "ai-message"
+                          msg.user === "User" ? "user-message" : "ai-message"
                         }`}
-                        {...(msg.isHtml ? { dangerouslySetInnerHTML: { __html: msg.text } } : { children: <><strong>{msg.user}:</strong> {msg.text}</> })}
+                        {...(msg.isHtml
+                          ? { dangerouslySetInnerHTML: { __html: msg.text } }
+                          : {
+                              children: (
+                                <>
+                                  <strong>{msg.user}:</strong> {msg.text}
+                                </>
+                              ),
+                            })}
                       />
                     ))}
                     {waitingForResponse && (
                       <div className="mb-2 text-pink-500">
-                        <strong>Devika (waiting for response):</strong> Please wait...
+                        <strong>Devika (waiting for response):</strong> Please
+                        wait...
                       </div>
                     )}
                     {!waitingForResponse && currentMessage && (
