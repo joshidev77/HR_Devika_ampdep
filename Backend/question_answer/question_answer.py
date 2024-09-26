@@ -1,136 +1,114 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import google.generativeai as genai
-import mysql.connector
-from mysql.connector import Error
-import re
 
 app = Flask(__name__)
 CORS(app)
 
-Tableschema = "TABLE employeedata (employee_id SERIAL PRIMARY KEY,first_name VARCHAR(50) NOT NULL, last_name VARCHAR(50) NOT NULL,gender VARCHAR(10) CHECK (gender IN ('Male', 'Female', 'Other')),date_of_birth DATE NOT NULL,email VARCHAR(100) UNIQUE NOT NULL,phone_number VARCHAR(20),hire_date DATE NOT NULL,job_title VARCHAR(50) NOT NULL,department VARCHAR(50) NOT NULL,salary DECIMAL(10, 2) NOT NULL,address VARCHAR(255),city VARCHAR(50),state VARCHAR(50),postal_code VARCHAR(20),country VARCHAR(50))......this is the schema for my database table, can you generate me the sql query in single line for the statement : "
+genai.configure(api_key="AIzaSyDu3noOAGc6qsOZPUQwI4BqLqshOeM8Nsc")
 
-database_config = {
-    "host": "c6hdr9kd0hclf3ce1v37v3kqmc.ingress.dal.leet.haus",
-    "port": 3306,  # Use the appropriate port for your database, 3306 is default for MySQL
-    "database": "railway",
-    "user": "root",
-    "password": "root"
+generation_config = {
+    "temperature": 0.9,
+    "top_p": 1,
+    "top_k": 1,
+    "max_output_tokens": 2048,
 }
 
+safety_settings = [
+    {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
+    {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
+    {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
+    {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
+]
 
-def run_query(query, params=None):
-    conn = None
-    cursor = None
-    try:
-        # Connect to the database
-        conn = mysql.connector.connect(**database_config)
-        if conn.is_connected():
-            # Use a context manager to handle the cursor
-            with conn.cursor(dictionary=True) as cursor:
-                if params:
-                    cursor.execute(query, params)
-                else:
-                    cursor.execute(query)
+model = genai.GenerativeModel(model_name="gemini-1.0-pro", generation_config=generation_config, safety_settings=safety_settings)
 
-                if query.strip().upper().startswith("SELECT"):
-                    results = cursor.fetchall()
-                    return results
-                else:
-                    conn.commit()
-                    return {"message": "Query executed successfully."}
+interview_history = []
+question_count = 0
+user_name = ""
 
-    except Error as error:
-        return {"error": str(error)}
-
-    finally:
-        # Ensure `conn` is not None before checking if it's connected
-        if conn is not None and conn.is_connected():
-            conn.close()
-
-@app.route('/request_query', methods=['POST'])
-def request_query():
+@app.route('/interview', methods=['POST'])
+def interview():
+    global interview_history, question_count, user_name
     try:
         data = request.json
-        requery = data.get('requery')
-        if requery is None:
-            raise ValueError('Request query is not mentioned in the request.')
+        candidate_input = data.get('candidate_input', '')
+        restart = data.get('restart', False)
 
-        final = Tableschema + requery
-        genai.configure(api_key="AIzaSyBDsnIJKr2YV--005hsm-yYikjy2bxCYvk")
+        if restart:
+            interview_history = []
+            question_count = 0
+            user_name = ""
 
-        generation_config = {
-            "temperature": 0.9,
-            "top_p": 1,
-            "top_k": 1,
-            "max_output_tokens": 2048,
-        }
+        if not interview_history:
+            # Start of the interview
+            hr_response = '<div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4" role="alert"><p class="font-bold">Welcome to the interview!</p><p>Could you please tell me your name?</p></div>'
+        elif not user_name:
+            # Extract name from the introduction
+            extracted_name = extract_name(candidate_input)
+            if extracted_name:
+                user_name = extracted_name
+                hr_response = f'<div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert"><p class="font-bold">Nice to meet you, {user_name}!</p><p>Let\'s start our conversation. Could you tell me a bit about your family?</p></div>'
+            else:
+                hr_response = '<div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4" role="alert"><p class="font-bold">I\'m sorry, I couldn\'t catch your name.</p><p>Could you please introduce yourself again, clearly stating your name?</p></div>'
+        elif candidate_input.lower() == "i want to end the interview":
+            # End of interview
+            hr_response = generate_final_review()
+            is_final_review = True
+        else:
+            # Continue the interview
+            hr_response = generate_next_question(candidate_input)
+            question_count += 1
 
-        safety_settings = [
-            {
-                "category": "HARM_CATEGORY_HARASSMENT",
-                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-            },
-            {
-                "category": "HARM_CATEGORY_HATE_SPEECH",
-                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-            },
-            {
-                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-            },
-            {
-                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-            },
-        ]
+        interview_history.append(f"Candidate: {candidate_input}\n\nHR: {hr_response}\n\n")
 
-        model = genai.GenerativeModel(model_name="gemini-1.0-pro",
-                                      generation_config=generation_config,
-                                      safety_settings=safety_settings)
-        convo = model.start_chat(history=[])
-        convo.send_message(final)
-        datatext = convo.last.text
-
-        # Clean the query
-        clean_query = clean_sql_query(datatext)
-
-        # Execute the query and get results
-        query_results = run_query(clean_query)
-
-        response = {
-            'query': clean_query,
-            'results': query_results
-        }
-
-        return jsonify(response)
-
+        return jsonify({
+            'hr_response': hr_response,
+            'is_final_review': 'i want to end the interview' in candidate_input.lower(),
+            'question_count': question_count
+        })
     except Exception as e:
         return jsonify({'error': str(e)})
 
-def clean_sql_query(query):
-    # Remove any leading/trailing whitespace
-    query = query.strip()
+def extract_name(input_text):
+    prompt = f"""
+    Extract the name from the following introduction: {input_text}
+    Return the result in the format: "Name: [name]"
+    If you can't identify, return: "Incomplete".
+    """
+    convo = model.start_chat(history=[])
+    response = convo.send_message(prompt)
+    result = response.text.strip()
 
-    # Remove any markdown code block indicators and quotation marks
-    query = query.replace('```', '').replace('"""', '').replace("'''", "")
+    if result != "Incomplete":
+        name = result.split("Name:")[1].strip()
+        return name
 
-    # Remove any leading "SQL query:" or similar text
-    query = re.sub(r'^(SQL query:?\s*)', '', query, flags=re.IGNORECASE)
+    return None
 
-    # Remove any comments
-    query = re.sub(r'--.*$', '', query, flags=re.MULTILINE)
-    query = re.sub(r'/\.?\*/', '', query, flags=re.DOTALL)
-    query = re.sub(r'^SQL\s+', '', query, flags=re.IGNORECASE)
+def generate_next_question(candidate_input):
+    prompt = f"""
+    You are a friendly interviewer having a casual conversation. Here's the conversation history so far: {"".join(interview_history)}
+    The person's latest response is: {candidate_input}
+    Based on this response and the conversation history, ask a short, friendly follow-up question. Focus on personal topics like family, friends, hobbies, or interesting life experiences. Avoid professional or technical questions.
+    Format the response in HTML with Tailwind CSS classes for a warm and inviting look. Use a div with appropriate background color, border, and text color classes.
+    """
+    convo = model.start_chat(history=[])
+    response = convo.send_message(prompt)
+    return response.text.strip()
 
-    # Replace multiple spaces with a single space
-    query = re.sub(r'\s+', ' ', query)
-
-    # Ensure the query ends with a semicolon
-    if not query.strip().endswith(';'):
-        query += ';'
-
-    return query.strip()
+def generate_final_review():
+    prompt = f"""
+    You are a friendly interviewer. Here's the complete conversation history: {"".join(interview_history)}
+    Please provide a short, warm summary of the conversation with {user_name}, including:
+    1. A brief recap of the interesting things you learned about {user_name}
+    2. A couple of positive observations about {user_name}'s personality or experiences
+    3. A friendly closing remark
+    Format the response in HTML with Tailwind CSS classes for a warm and inviting look. Use separate divs with appropriate background color, border, and text color classes for each section.
+    """
+    convo = model.start_chat(history=[])
+    response = convo.send_message(prompt)
+    return response.text.strip()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(debug=True)
